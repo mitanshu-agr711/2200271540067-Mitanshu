@@ -1,62 +1,81 @@
-﻿# 2200271540067-Mitanshu
+📌 Short URL Service - 2200271540067-Mitanshu Agrawal
+Developed by Mitanshu Agrawal (Roll No: 2200271540067)
+gmail:mitanshuagrawal5@gmail.com
+Base URL: http://localhost:3000
 
-1. Create Short URL (POST /shorturls)
+🔗 1. Create Short URL
+Endpoint: POST /shorturls
+Purpose: Create a shortened version of a long URL with optional expiry and custom shortcode.
+
+✅ Request
 Method: POST
-
 URL: http://localhost:3000/shorturls
-
 Headers:
 
+http
+Copy
+Edit
 Content-Type: application/json
-
-Body: (raw JSON)
+Body: (JSON)
 
 json
+Copy
+Edit
 {
   "url": "https://example.com/long-url",
-  "validity": 60,             // optional, in minutes
-  "shortcode": "customcode"   // optional, alphanumeric short code
+  "validity": 60,              // Optional: Validity in minutes
+  "shortcode": "customcode"    // Optional: Custom alphanumeric short code
 }
-Send request.
-
-Expected response:
-
+✅ Sample Response
 json
+Copy
+Edit
 {
   "shortLink": "http://localhost:3000/customcode",
-  "expiry": "ISO 8601 timestamp"
+  "expiry": "2025-07-15T07:00:00.000Z"
 }
-2. Get Short URL Statistics (GET /shorturls/:shortcode)
-Method: GET
+📊 2. Get Short URL Statistics
+Endpoint: GET /shorturls/:shortcode
+Purpose: Retrieve usage and tracking data for a given short URL.
 
+✅ Request
+Method: GET
 URL: http://localhost:3000/shorturls/customcode
-(replace customcode with your actual shortcode from creation)
 
 No body required.
 
-Send request.
-
-Expected response: JSON with usage stats, e.g.:
-
+✅ Sample Response
 json
+Copy
+Edit
 {
   "total_clicks": 3,
   "original_url": "https://example.com/long-url",
-  "creation_date": "ISO 8601 timestamp",
-  "expiry_date": "ISO 8601 timestamp",
+  "creation_date": "2025-07-15T06:00:00.000Z",
+  "expiry_date": "2025-07-15T07:00:00.000Z",
   "detailed_clicks": [
-    {"timestamp": "...", "referrer": "...", "geo_location": "..."},
-    ...
+    {
+      "timestamp": "2025-07-15T06:30:12.123Z",
+      "referrer": "https://google.com",
+      "geo_location": "India"
+    },
+    {
+      "timestamp": "2025-07-15T06:40:25.789Z",
+      "referrer": "https://linkedin.com",
+      "geo_location": "India"
+    }
   ]
 }
-3. Redirect Short URL (GET /:shortcode)
-Method: GET
+🚀 3. Redirect Short URL
+Endpoint: GET /:shortcode
+Purpose: Redirect users from the short URL to the original long URL.
 
+✅ Request
+Method: GET
 URL: http://localhost:3000/customcode
-(replace customcode with your shortcode)
 
 No body required.
 
-Send request.
-
-Expected behavior: HTTP 302 redirect to the original long URL.
+✅ Expected Behavior
+HTTP 302 Found response
+→ Redirects to: https://example.com/long-url
