@@ -21,10 +21,10 @@ export async function Log(stack, level, pkg, message) {
       { stack, level, package: pkg, message },
       { headers: { Authorization: `Bearer ${AFFORDMED_TOKEN}` } }
     );
-    // Optionally echo logID locally
+
     console.debug(`Log sent (${res.data.logID})`);
   } catch (err) {
-    // Fallback local log
+   
     console.error('Failed to send log', err.message);
   }
 }
