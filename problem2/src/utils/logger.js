@@ -1,0 +1,32 @@
+const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.config({ path: process.env.LOGGER_DOTENV || '.env' });
+
+const LOG_URL = 'http://20.244.56.144/evaluation-service/logs';
+
+/**
+ * Log to Affordmed Test Server
+ * @param {"backend"|"frontend"} stack
+ * @param {"debug"|"info"|"warn"|"error"|"fatal"} level
+ * @param {string} pkg
+ * @param {string} message
+ */
+async function Log(stack, level, pkg, message) {
+  try {
+    const { AFFORDMED_TOKEN } = process.env;
+    if (!AFFORDMED_TOKEN) throw new Error('Missing AFFORDMED_TOKEN');
+
+    const res = await axios.post(
+      LOG_URL,
+      { stack, level, package: pkg, message },
+      { headers: { Authorization: `Bearer ${AFFORDMED_TOKEN}` } }
+    );
+   
+    console.debug(`Log sent (${res.data.logID})`);
+  } catch (err) {
+   
+    console.error('Failed to send log', err.message);
+  }
+}
+
+module.exports = Log;
